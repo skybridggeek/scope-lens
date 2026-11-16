@@ -411,13 +411,15 @@ On the repo page: Settings → Collaborators → Add people
 Enter her GitHub username or email, send the invite — she accepts from her email or her GitHub notifications
 What to do on their side:
 
-git clone https://github.com/USERNAME/scope-lens.git
-cd scope-lens
-npm install
-npm run dev
-That gives her the full app in her browser at http://localhost:1420. To run it as a native Windows window or build the installer, she'll also need the Rust toolchain + Visual Studio Build Tools (README section 2 covers it).
+  1. git clone https://github.com/USERNAME/scope-lens.git
+  2. cd scope-lens
+  3. npm install
+  4. npm run dev
+  
+That gives them the full app in their browser at http://localhost:1420. To run it as a native Windows window or build the installer, they'll also need the Rust toolchain + Visual Studio Build Tools (README section 2 covers it).
 
-Later, whenever we change something: git add . → git commit -m "what changed" → git push — or just ask me and I'll prepare it. She gets the updates with git pull.
+Later, whenever we change something: git add . → git commit -m "what changed" → git push 
+ they get the updates with git pull.
 
 ---
 
