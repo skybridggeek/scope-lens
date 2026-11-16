@@ -1,0 +1,19 @@
+[package]
+name = "scope-lens"
+version = "0.1.0"
+description = "SCOPE Lens — Subsidy and Cap Outcome Policy Evaluator"
+authors = ["SCOPE Lens"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+good_lp = { version = "1", default-features = false, features = ["minilp"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+printpdf = { version = "0.12.9", default-features = false, features = ["text_layout", "images"] }
+arabic_reshaper = "0.4.2"
+unicode-bidi = "0.3.18"

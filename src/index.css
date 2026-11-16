@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .font-tabular,
+  .tabular-nums-kpi {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white border border-hairline rounded-card shadow-card;
+  }
+  .btn-primary {
+    @apply bg-navy text-white rounded-card px-4 py-2 text-sm font-medium cursor-pointer transition-colors duration-150 hover:bg-[#163a5c];
+  }
+  .btn-ghost {
+    @apply rounded-card px-3 py-2 text-sm font-medium cursor-pointer text-slate2 transition-colors duration-150 hover:bg-hairline;
+  }
+  .badge-amber {
+    @apply inline-flex items-center rounded-input bg-amber/10 text-amber text-xs font-medium px-2 py-1;
+  }
+}

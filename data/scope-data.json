@@ -1,0 +1,119 @@
+{
+  "_README": [
+    "SCOPE Lens data file. This is the ONLY file you need to edit to add or change products, wilayas, or study cases. The app reads it automatically - no other code changes are needed.",
+    "HOW TO ADD SOMETHING: copy an existing block below (including its curly braces and the comma after it), paste it at the end of the same list, then change its values. Keep the quotes, commas and braces exactly as they are - this file must stay valid JSON.",
+    "NAMES: every name/text has three versions: en (English), fr (French), ar (Arabic). You may fill only one language; the app falls back to the others automatically.",
+    "PRODUCTS - required fields: id (short unique word, letters/numbers/underscores only), name, price (usual market price, DZD/kg), quantity (tonnes traded per period), cost (producer cost, DZD/kg).",
+    "PRODUCTS - optional fields (delete them to use the default): demand_sensitivity (how strongly buyers react to price, negative, default -0.4), supply_sensitivity (how strongly producers react, positive, default 0.6), markup (usual trader margin fraction, default 0.2), ceiling (suggested retail ceiling DZD/kg, default = 2/3 of price), producer_ceiling (suggested producer ceiling DZD/kg, default 0 = none), subsidy (suggested subsidy DZD/kg, default 0), stock_release (suggested stock release tonnes, default 0), advanced (alpha/beta/delta/kappa model tuning, defaults 3/2/100/0.1).",
+    "WILAYAS - required fields: id, name, deficit (tonnes short per period). Optional: transport (cost to reach it, DZD/kg, default 10), priority (0 to 1, higher = served first, default 0.8).",
+    "CASES - required fields: id, product (the id of a product listed above), title, date, body. Optional: focus (the small 'Focus: ...' line; if omitted it is built from the product name), facts (list of {text, status} where status is 'verified' or 'press'), calibration (any product field to override for this case, e.g. demand_sensitivity or advanced.delta), policy (ceiling, producer_ceiling, subsidy, stock_release, monitoring 0-1; omitted ceiling means no ceiling).",
+    "After editing, rebuild the app (npm run tauri build) to see your changes in the installed version."
+  ],
+
+  "products": [
+    {
+      "id": "potatoes",
+      "name": { "en": "Potatoes", "fr": "Pommes de terre", "ar": "بطاطا" },
+      "price": 120,
+      "quantity": 50000,
+      "cost": 70,
+      "demand_sensitivity": -0.4,
+      "supply_sensitivity": 0.6,
+      "markup": 0.2,
+      "ceiling": 80,
+      "producer_ceiling": 65,
+      "subsidy": 20,
+      "stock_release": 5000,
+      "advanced": { "alpha": 3, "beta": 2, "delta": 100, "kappa": 0.1 }
+    },
+    {
+      "id": "bananas",
+      "name": { "en": "Bananas", "fr": "Bananes", "ar": "موز" },
+      "price": 650,
+      "quantity": 15000,
+      "cost": 380,
+      "demand_sensitivity": -0.25,
+      "supply_sensitivity": 0.15,
+      "markup": 0.25,
+      "ceiling": 400,
+      "producer_ceiling": 0,
+      "subsidy": 100,
+      "stock_release": 2000,
+      "advanced": { "alpha": 3, "beta": 2, "delta": 100, "kappa": 0.1 }
+    },
+    {
+      "id": "oil",
+      "name": { "en": "Table oil", "fr": "Huile de table", "ar": "زيت المائدة" },
+      "price": 350,
+      "quantity": 20000,
+      "cost": 280,
+      "demand_sensitivity": -0.15,
+      "supply_sensitivity": 0.3,
+      "markup": 0.15,
+      "ceiling": 300,
+      "producer_ceiling": 0,
+      "subsidy": 50,
+      "stock_release": 3000,
+      "advanced": { "alpha": 3, "beta": 2, "delta": 100, "kappa": 0.1 }
+    }
+  ],
+
+  "wilayas": [
+    { "id": "algiers", "name": { "en": "Algiers", "fr": "Alger", "ar": "الجزائر" }, "deficit": 6000, "transport": 4, "priority": 1.0 },
+    { "id": "oran", "name": { "en": "Oran", "fr": "Oran", "ar": "وهران" }, "deficit": 4500, "transport": 12, "priority": 0.9 },
+    { "id": "constantine", "name": { "en": "Constantine", "fr": "Constantine", "ar": "قسنطينة" }, "deficit": 3800, "transport": 18, "priority": 0.9 },
+    { "id": "setif", "name": { "en": "Sétif", "fr": "Sétif", "ar": "سطيف" }, "deficit": 3000, "transport": 14, "priority": 0.8 },
+    { "id": "blida", "name": { "en": "Blida", "fr": "Blida", "ar": "البليدة" }, "deficit": 2200, "transport": 6, "priority": 0.8 },
+    { "id": "ouargla", "name": { "en": "Ouargla", "fr": "Ouargla", "ar": "ورقلة" }, "deficit": 1500, "transport": 35, "priority": 0.7 },
+    { "id": "bechar", "name": { "en": "Béchar", "fr": "Béchar", "ar": "بشار" }, "deficit": 1200, "transport": 40, "priority": 0.7 },
+    { "id": "tizi_ouzou", "name": { "en": "Tizi Ouzou", "fr": "Tizi Ouzou", "ar": "تيزي وزو" }, "deficit": 1800, "transport": 10, "priority": 0.75 }
+  ],
+
+  "cases": [
+    {
+      "id": "bananas-apr-2025",
+      "product": "bananas",
+      "date": { "en": "April 2025", "fr": "avril 2025", "ar": "أفريل 2025" },
+      "title": {
+        "en": "Five-Product Price Ceiling — April 2025",
+        "fr": "Plafonnement de cinq produits — avril 2025",
+        "ar": "تسقيف أسعار خمسة منتجات — نيسان/أفريل 2025"
+      },
+      "body": {
+        "en": "Bananas capped at 400 DZD/kg while the parallel market spiked towards 2,000 DZD/kg, exposing the fragility of import-dependent supply and its diversion into the parallel channel.",
+        "fr": "Prix des bananes plafonné à 400 DZD/kg alors que le marché parallèle atteignait un pic proche de 2 000 DZD/kg, révélant la fragilité de l'offre importée et sa déviation vers le canal parallèle.",
+        "ar": "سُقف سعر الموز عند 400 دج/كغ بينما بلغ السعر في السوق الموازية ذروة تقارب 2,000 دج/كغ، ما يعكس هشاشة العرض المستورد وتعرضه للتحويل نحو القناة الموازية."
+      },
+      "focus": { "en": "Focus: bananas", "fr": "Focus : bananes", "ar": "التركيز: الموز" },
+      "facts": [
+        { "text": { "en": "400 DZD/kg banana ceiling", "fr": "Plafond de 400 DZD/kg pour les bananes", "ar": "سقف 400 دج/كغ للموز" }, "status": "verified" },
+        { "text": { "en": "Parallel spike near 2,000 DZD/kg", "fr": "Pic parallèle proche de 2 000 DZD/kg", "ar": "ذروة موازية تقارب 2,000 دج/كغ" }, "status": "press" },
+        { "text": { "en": "Near-total import dependence", "fr": "Dépendance quasi totale à l'importation", "ar": "اعتماد شبه كلي على الاستيراد" }, "status": "press" }
+      ],
+      "calibration": { "demand_sensitivity": -0.6, "advanced": { "delta": 2000, "kappa": 0.05 } },
+      "policy": { "ceiling": 400, "subsidy": 0, "stock_release": 0, "monitoring": 0.1 }
+    },
+    {
+      "id": "potatoes-autumn-2026",
+      "product": "potatoes",
+      "date": { "en": "October – November 2026", "fr": "octobre – novembre 2026", "ar": "أكتوبر – نوفمبر 2026" },
+      "title": {
+        "en": "Autumn 2026 Potato Market Intervention",
+        "fr": "Intervention sur le marché de la pomme de terre — automne 2026",
+        "ar": "تدخل سوق البطاطا — خريف 2026"
+      },
+      "body": {
+        "en": "Pre-cap prices of 100–140 DZD/kg, an October 1 ceiling (60–70 DZD/kg producer, 80–90 DZD/kg retail), an October 18 daily-monitoring decree, and November 3–4 wholesale friction and seizures in Boumerdes.",
+        "fr": "Prix pré-plafond de 100 à 140 DZD/kg, puis plafond le 1er octobre (60–70 DZD/kg producteur, 80–90 DZD/kg détail), décret de contrôle quotidien le 18 octobre, et frictions de gros avec saisies à Boumerdès les 3–4 novembre.",
+        "ar": "أسعار ما قبل التسقيف بين 100 و140 دج/كغ، ثم سقف في 1 أكتوبر (60–70 دج/كغ للمنتج، 80–90 دج/كغ للتجزئة)، ومرسوم مراقبة يومية في 18 أكتوبر، واحتكاكات جملة وحجوزات في بومرداس في 3–4 نوفمبر."
+      },
+      "focus": { "en": "Focus: potatoes", "fr": "Focus : pommes de terre", "ar": "التركيز: البطاطا" },
+      "facts": [
+        { "text": { "en": "Oct 1 ceiling: 60–70 producer / 80–90 retail", "fr": "Plafond du 1er octobre : 60–70 producteur / 80–90 détail", "ar": "سقف 1 أكتوبر: 60–70 منتج / 80–90 تجزئة" }, "status": "verified" },
+        { "text": { "en": "October 18 daily-monitoring decree", "fr": "Décret de contrôle quotidien du 18 octobre", "ar": "مرسوم مراقبة يومية بتاريخ 18 أكتوبر" }, "status": "verified" },
+        { "text": { "en": "Nov 3–4 wholesale friction & Boumerdes seizures", "fr": "Frictions de gros et saisies à Boumerdès les 3–4 novembre", "ar": "احتكاكات جملة وحجوزات في بومرداس 3–4 نوفمبر" }, "status": "press" }
+      ],
+      "policy": { "ceiling": 85, "producer_ceiling": 65, "subsidy": 0, "stock_release": 0, "monitoring": 0.5 }
+    }
+  ]
+}
