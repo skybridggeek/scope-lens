@@ -24,7 +24,7 @@ for staple commodities, and exports a bilingual-ready **Policy Brief PDF** (Arab
 9. [Tests and verification](#9-tests-and-verification)
 10. [Project layout](#10-project-layout)
 11. [Troubleshooting](#11-troubleshooting)
-
+12. [Get source code](#12-get-source-code)
 ---
 
 ## 1. What the app does
@@ -400,6 +400,24 @@ Frontend checks: `npx tsc --noEmit` (types) and `npm run build` (production bund
 | Arabic brackets look inverted in a PDF | Should not happen anymore: `shape_text` in `src-tauri/src/pdf.rs` mirrors paired punctuation in RTL runs. If you add new bracket-like characters, extend `mirror_char`. |
 | Installer build fails on Windows | Ensure Rust MSVC toolchain + Visual Studio Build Tools (C++ workload) and WebView2 runtime are installed. |
 | Window is blank in dev mode | The frontend server isn't running: start `npm run dev` first, then the Rust shell. |
+
+---
+
+
+## 12. Get source code
+
+Invite your friend on github:
+On the repo page: Settings → Collaborators → Add people
+Enter her GitHub username or email, send the invite — she accepts from her email or her GitHub notifications
+What to do on their side:
+
+git clone https://github.com/USERNAME/scope-lens.git
+cd scope-lens
+npm install
+npm run dev
+That gives her the full app in her browser at http://localhost:1420. To run it as a native Windows window or build the installer, she'll also need the Rust toolchain + Visual Studio Build Tools (README section 2 covers it).
+
+Later, whenever we change something: git add . → git commit -m "what changed" → git push — or just ask me and I'll prepare it. She gets the updates with git pull.
 
 ---
 
