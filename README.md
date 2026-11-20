@@ -109,7 +109,66 @@ Arabic switches the whole app to right-to-left, including charts and tables.
 
 ---
 
-## 4. How the economic model works
+## 4. Maths
+
+### Baseline unregulated equilibrium
+
+Constant-elasticity (log-linear) demand and supply calibrated around the observed reference price $P_0$ and quantity $Q_0$.
+
+$$Q_d(P) = Q_0 \left(\frac{P}{P_0}\right)^{\varepsilon_d}, \qquad Q_s(P) = Q_0 \left(\frac{P}{P_0}\right)^{\varepsilon_s}$$
+
+$$P_{\text{eff}} = \min(P^*, P_{c,\text{ret}}) + S, \qquad Q_{\text{total}} = Q_s(P_{\text{eff}}) + \Delta Q_{\text{stock}}$$
+
+---
+
+### Regulated supply & rationing
+
+When the ceiling sits below cost-plus-margin, suppliers withhold supply from the official channel; the diverted fraction $\theta$ rises with the margin squeeze and decays exponentially with enforcement intensity $\mu$.
+
+$$\theta = 1 - \exp\left(-\alpha \cdot \frac{\max(0, \; C_0(1 + m_0) - P_{c,\text{ret}})}{C_0} \cdot (1 - \mu)^\beta\right)$$
+
+$$Q_{\text{reg}} = (1 - \theta) Q_{\text{total}}, \qquad \Delta Q_{\text{shortage}} = \max(0, \; Q_d(P_{c,\text{ret}}) - Q_{\text{reg}})$$
+
+---
+
+### Parallel market clearing
+
+Unserved demand spills into the parallel market, met by diverted supply plus a risk premium rising with enforcement.
+
+$$P_{\text{par}} = P_{c,\text{ret}} \cdot \left(1 + \frac{\Delta Q_{\text{shortage}}}{Q_{\text{par}} + \delta}\right)^{\frac{1}{|\varepsilon_d|}} \cdot (1 + \kappa \mu)$$
+
+$$Q_{\text{par}} = \theta Q_{\text{total}}$$
+
+---
+
+### Welfare, fiscal & household metrics
+
+Government expenditure aggregates the subsidy, stock cost and quadratic enforcement cost; the average household price is volume-weighted across both channels; DWL combines the Harberger triangle with parallel rent dissipation.
+
+$$G = S \cdot Q_{\text{total}} + c_{\text{stock}} \cdot \Delta Q_{\text{stock}} + c_{\text{enf}} \cdot \mu^2$$
+
+$$P_{\text{avg}} = \frac{Q_{\text{reg}} \cdot P_{c,\text{ret}} + Q_{\text{par}} \cdot P_{\text{par}}}{Q_{\text{reg}} + Q_{\text{par}}}, \qquad DWL = \frac{1}{2}(P_{\text{par}} - P_c)\Delta Q_{\text{shortage}} + (P_{\text{par}} - P_c)Q_{\text{par}}$$
+
+---
+
+### Variable & Unit Table
+
+| Symbol | Meaning | Unit |
+| :--- | :--- | :--- |
+| $P_0$ | Observed reference price | `DZD/kg` |
+| $Q_0$ | Observed reference quantity | `t` |
+| $\varepsilon_d$ | Price elasticity of demand (negative) | `—` |
+| $\varepsilon_s$ | Price elasticity of supply (positive) | `—` |
+| $C_0$ | Unit production/import cost | `DZD/kg` |
+| $m_0$ | Normal competitive margin | `—` |
+| $\mu$ | Monitoring & enforcement intensity | `[0, 1]` |
+| $\theta$ | Fraction diverted to the parallel market | `[0, 1]` |
+| $\Delta Q_{\text{stock}}$ | Strategic stock release | `t` |
+| $S$ | Unit subsidy | `DZD/kg` |
+
+> *Common reference ranges for staple foods: demand elasticity between $-0.1$ and $-0.6$; short-run supply elasticity between $0.05$ and $0.8$.*
+
+## 5. How the economic model works
 
 Partial-equilibrium, constant-elasticity curves calibrated at a reference point `(p0, q0)`:
 
@@ -154,7 +213,7 @@ The exact same math lives in two places that must stay identical:
 
 ---
 
-## 5. How the app is built (architecture)
+## 6. How the app is built (architecture)
 
 ```
 ┌────────────────────────── Tauri v2 native window ──────────────────────────┐
@@ -189,7 +248,7 @@ works with or without the native shell.
 
 ---
 
-## 6. The PDF export pipeline
+## 7. The PDF export pipeline
 
 1. **Frontend assembles the report** (`src/useExportPdf.ts` + `src/pdfReport.ts`): all labels are
    already translated, numbers formatted with `Intl` for the active locale, and the supply/demand
@@ -209,7 +268,7 @@ works with or without the native shell.
 
 ---
 
-## 7. Updating the data (products, wilayas, cases)
+## 8. Updating the data (products, wilayas, cases)
 
 **Everything lives in one file: `data/scope-data.json`.** Both the Rust backend and the
 frontend read it, so you edit it once — no code changes, no duplicate lists, no translation
@@ -221,7 +280,7 @@ The file has three lists:
 - `wilayas` — the rows of the stock-release optimizer.
 - `cases` — the study-case cards; "Load into simulator" works automatically.
 
-### 7.1 Adding a product
+### 8.1 Adding a product
 
 Copy an existing product block, paste it at the end of the `products` list, and edit:
 
@@ -251,7 +310,7 @@ or your own regression, `cost`/`markup` from import/production cost accounts. Ke
 **DZD/kg, tonnes, million DZD**. The UI badge ("Illustrative data…") lives in `app.badge` in
 the three dictionaries — change it once your data is official.
 
-### 7.2 Adding a wilaya
+### 8.2 Adding a wilaya
 
 ```json
 { "id": "tlemcen", "name": { "en": "Tlemcen", "fr": "Tlemcen", "ar": "تلمسان" }, "deficit": 2000, "transport": 20, "priority": 0.8 }
@@ -261,7 +320,7 @@ the three dictionaries — change it once your data is official.
 `priority` (0–1, higher = served first, default 0.8) are optional. All 58 wilayas can be
 listed this way — the optimizer scales trivially.
 
-### 7.3 Adding a study case
+### 8.3 Adding a study case
 
 ```json
 {
@@ -281,7 +340,7 @@ field for this case only (including `advanced.delta` etc.); `policy` sets the lo
 (`ceiling`, `producer_ceiling`, `subsidy`, `stock_release`, `monitoring` 0–1; omit `ceiling`
 for no ceiling). `facts` statuses are `verified` (official decree) or `press` (press-reported).
 
-### 7.4 Policy defaults, costs and slider ranges
+### 8.4 Policy defaults, costs and slider ranges
 
 - Suggested policy anchors: the `ceiling` / `producer_ceiling` / `subsidy` / `stock_release`
   fields of each product in the data file.
@@ -291,7 +350,7 @@ for no ceiling). `facts` statuses are `verified` (official decree) or `press` (p
 - Shortage penalty used by the optimizer: `SHORTAGE_PENALTY_PER_T` in **both**
   `src-tauri/src/model/optimizer.rs` and `src/engine.ts` (keep them equal).
 
-### 7.5 After any data edit
+### 8.5 After any data edit
 
 The file must stay valid JSON (quotes, commas, braces). If it is broken, the app says so
 explicitly at startup. To check and ship:
@@ -306,7 +365,7 @@ then rebuild the installer or restart dev mode. If you changed anything that fee
 
 ---
 
-## 8. Translations and branding
+## 9. Translations and branding
 
 - **Languages:** `src/i18n/en.json`, `fr.json`, `ar.json`. Same key tree in all three; the app
   falls back to the key path if a translation is missing. Arabic automatically flips layout
@@ -322,7 +381,7 @@ then rebuild the installer or restart dev mode. If you changed anything that fee
 
 ---
 
-## 9. Tests and verification
+## 10. Tests and verification
 
 ```bash
 cd src-tauri
@@ -349,7 +408,7 @@ Frontend checks: `npx tsc --noEmit` (types) and `npm run build` (production bund
 
 ---
 
-## 10. Project layout
+## 11. Project layout
 
 ```
 ├── SPEC.md                     authoritative product/spec document
@@ -389,7 +448,7 @@ Frontend checks: `npx tsc --noEmit` (types) and `npm run build` (production bund
 
 ---
 
-## 11. Troubleshooting
+## 12. Troubleshooting
 
 | Symptom | Fix |
 |---|---|
@@ -404,22 +463,21 @@ Frontend checks: `npx tsc --noEmit` (types) and `npm run build` (production bund
 ---
 
 
-## 12. Get source code
+## 13. Get source code
 
 Invite your friend on github:
 On the repo page: Settings → Collaborators → Add people
 Enter her GitHub username or email, send the invite — she accepts from her email or her GitHub notifications
 What to do on their side:
 
-  1. git clone https://github.com/USERNAME/scope-lens.git
-  2. cd scope-lens
-  3. npm install
-  4. npm run dev
-  
+    git clone https://github.com/USERNAME/scope-lens.git
+    cd scope-lens
+    npm install
+    npm run dev
+
 That gives them the full app in their browser at http://localhost:1420. To run it as a native Windows window or build the installer, they'll also need the Rust toolchain + Visual Studio Build Tools (README section 2 covers it).
 
-Later, whenever we change something: git add . → git commit -m "what changed" → git push 
- they get the updates with git pull.
+Later, whenever we change something: git add . → git commit -m "what changed" → git push
 
 ---
 
