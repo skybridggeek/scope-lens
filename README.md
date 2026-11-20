@@ -16,7 +16,7 @@ for staple commodities, and exports a bilingual-ready **Policy Brief PDF** (Arab
 1. [What the app does](#1-what-the-app-does)
 2. [Running it](#2-running-it)
 3. [The five screens](#3-the-five-screens)
-4. [Maths](#4-maths)
+4. [Formulas](#4-formulas)
 5. [How the economic model works](#5-how-the-economic-model-works)
 6. [How the app is built (architecture)](#6-how-the-app-is-built-architecture)
 7. [The PDF export pipeline](#7-the-pdf-export-pipeline)
@@ -110,7 +110,7 @@ Arabic switches the whole app to right-to-left, including charts and tables.
 
 ---
 
-## 4. Maths
+## 4. Formulas
 
 ### Baseline unregulated equilibrium
 
