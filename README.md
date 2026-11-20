@@ -16,15 +16,16 @@ for staple commodities, and exports a bilingual-ready **Policy Brief PDF** (Arab
 1. [What the app does](#1-what-the-app-does)
 2. [Running it](#2-running-it)
 3. [The five screens](#3-the-five-screens)
-4. [How the economic model works](#4-how-the-economic-model-works)
-5. [How the app is built (architecture)](#5-how-the-app-is-built-architecture)
-6. [The PDF export pipeline](#6-the-pdf-export-pipeline)
-7. [Updating the data (products, wilayas, cases)](#7-updating-the-data-products-wilayas-cases)
-8. [Translations and branding](#8-translations-and-branding)
-9. [Tests and verification](#9-tests-and-verification)
-10. [Project layout](#10-project-layout)
-11. [Troubleshooting](#11-troubleshooting)
-12. [Get source code](#12-get-source-code)
+4. [Maths](#4-maths)
+5. [How the economic model works](#5-how-the-economic-model-works)
+6. [How the app is built (architecture)](#6-how-the-app-is-built-architecture)
+7. [The PDF export pipeline](#7-the-pdf-export-pipeline)
+8. [Updating the data (products, wilayas, cases)](#8-updating-the-data-products-wilayas-cases)
+9. [Translations and branding](#9-translations-and-branding)
+10. [Tests and verification](#10-tests-and-verification)
+11. [Project layout](#11-project-layout)
+12. [Troubleshooting](#12-troubleshooting)
+13. [Get source code](#13-get-source-code)
 ---
 
 ## 1. What the app does
@@ -167,6 +168,8 @@ $$P_{\text{avg}} = \frac{Q_{\text{reg}} \cdot P_{c,\text{ret}} + Q_{\text{par}} 
 | $S$ | Unit subsidy | `DZD/kg` |
 
 > *Common reference ranges for staple foods: demand elasticity between $-0.1$ and $-0.6$; short-run supply elasticity between $0.05$ and $0.8$.*
+
+---
 
 ## 5. How the economic model works
 
